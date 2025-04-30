@@ -1,11 +1,10 @@
 import './App.css'
-import { Cell } from './components/Cell/Cell'
+import { Board } from './components/Board/Board'
 
 function App() {
   return (
     <>
-      <Cell value={'O'} onClick={() => console.log('Oval')}/>
-      <Cell value={'X'} onClick={() => console.log('Cross')}/>
+      <Board cells={['X', 'O', 'O', 'X', 'O', 'X', 'O', 'O', 'X']} onCellClick={() => console.log('click')}/>
     </>
   )
 }

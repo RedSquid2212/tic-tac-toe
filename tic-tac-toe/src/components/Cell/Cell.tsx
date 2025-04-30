@@ -13,7 +13,9 @@ type CellProps = {
 const CellComponent: FC<CellProps> = ({ value, onClick }) => {
     return (
         <button onClick={onClick} type='button' className={styles.cell}>
-            <Lottie animationData={value === 'X' ? crossAnimation : ovalAnimation} loop={false} />
+            <div className={styles.animation}>
+                <Lottie animationData={value === 'X' ? crossAnimation : ovalAnimation} loop={false} />
+            </div>
         </button>
     )
 };
