@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { Dispatch, FC, memo, SetStateAction } from 'react';
 import gridAnimation from '../../assets/grid.json';
 import { Cell } from '../Cell/Cell';
 import Lottie from 'lottie-react';
@@ -8,13 +8,22 @@ import styles from './Board.module.css';
 type BoardProps = {
     readonly cells: readonly ('X' | 'O' | null)[];
     readonly onCellClick: (index: number) => void;
+    readonly setIsBoardInitialized: Dispatch<SetStateAction<boolean>>;
 };
 
-const BoardComponent: FC<BoardProps> = ({ cells, onCellClick }) => {
+const BoardComponent: FC<BoardProps> = ({ cells, onCellClick, setIsBoardInitialized }) => {
+    const handleBoardAnimationComplete = () => {
+        setIsBoardInitialized(true);
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.animation}>
-                <Lottie animationData={gridAnimation} loop={false} />
+                <Lottie
+                    animationData={gridAnimation}
+                    loop={false}
+                    onComplete={handleBoardAnimationComplete}
+                />
             </div>
             <div className={styles.board}>
                 {cells.map((cell, index) => (
