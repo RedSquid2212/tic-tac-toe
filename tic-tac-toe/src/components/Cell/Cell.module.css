@@ -12,3 +12,35 @@
 .animation {
     position: absolute;
 }
+
+.winningCell {
+    animation: winPulse 2s ease-out;
+}
+
+.boardClearing {
+    animation: fadeOut 1s forwards;
+}
+
+@keyframes winPulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

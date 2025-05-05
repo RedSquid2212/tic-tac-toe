@@ -9,6 +9,7 @@ const GameComponent: FC = () => {
     const [isBoardInitialized, setIsBoardInitialized] = useState(false);
     const [computerIndex, setComputerIndex] = useState(4);
     const [winner, setWinner] = useState<('X' | 'O' | null)>(null);
+    const [winningCells, setWinningCells] = useState<readonly number[]>([]);
     const [isCellsFreezed, setIsCellsFreezed] = useState(true);
 
     const makeMove = useCallback((index: number) => {
@@ -21,6 +22,7 @@ const GameComponent: FC = () => {
             setComputerIndex(calculateComputerMove(newState));
             const calculatedWinner = checkWinner(newState);
             setWinner(calculatedWinner?.winner ?? null);
+            setWinningCells(calculatedWinner?.winLines ?? []);
             return newState;
         });
         setCurrentPlayer(prevState => prevState === 'O' ? 'X' : 'O');
@@ -56,6 +58,7 @@ const GameComponent: FC = () => {
             cells={cells}
             onCellClick={(index) => handleCellClick(index)}
             setIsBoardInitialized={setIsBoardInitialized}
+            winningCells={winningCells}
         />
     );
 };

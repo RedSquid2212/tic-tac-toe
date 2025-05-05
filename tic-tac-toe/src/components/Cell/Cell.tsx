@@ -8,16 +8,18 @@ import styles from './Cell.module.css';
 type CellProps = {
     readonly value: 'X' | 'O' | null;
     readonly onClick: () => void;
+    readonly isWinning: boolean;
 }
 
-const CellComponent: FC<CellProps> = ({ value, onClick }) => {
-    const handleClick = () => {
-        onClick();
-    };
-
+const CellComponent: FC<CellProps> = ({ value, onClick, isWinning }) => {
     return (
-        <button onClick={handleClick} type='button' className={styles.cell} disabled={value !== null}>
-            <div className={styles.animation}>
+        <button
+            onClick={onClick}
+            type='button'
+            className={styles.cell}
+            disabled={value !== null}
+        >
+            <div className={`${styles.animation} ${isWinning ? styles.winningCell : ''}`}>
                 {value !== null &&
                     <Lottie
                         animationData={value === 'X' ? crossAnimation : ovalAnimation}
