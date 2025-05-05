@@ -13,6 +13,15 @@ const GameComponent: FC = () => {
     const [isClearing, setIsClearing] = useState(false);
     const [isCellsFreezed, setIsCellsFreezed] = useState(true);
 
+    const resetGame = () => {
+        setIsClearing(false);
+        setCells(Array(9).fill(null));
+        setCurrentPlayer('X');
+        setComputerIndex(4);
+        setWinner(null);
+        setWinningCells([]);
+    };
+
     const makeMove = useCallback((index: number) => {
         if (winner != null) {
             return;
@@ -27,6 +36,9 @@ const GameComponent: FC = () => {
             if (calculatedWinner?.winLines != null || newState.every(cell => cell != null)) {
                 setTimeout(() => {
                     setIsClearing(true);
+                    setTimeout(() => {
+                        resetGame();
+                    }, 1000);
                 }, 2200);
             }
             return newState;
