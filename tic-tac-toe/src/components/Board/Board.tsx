@@ -10,9 +10,16 @@ type BoardProps = {
     readonly onCellClick: (index: number) => void;
     readonly setIsBoardInitialized: Dispatch<SetStateAction<boolean>>;
     readonly winningCells: readonly number[];
+    readonly isClearing: boolean;
 };
 
-const BoardComponent: FC<BoardProps> = ({ cells, onCellClick, setIsBoardInitialized, winningCells }) => {
+const BoardComponent: FC<BoardProps> = ({
+    cells,
+    onCellClick,
+    setIsBoardInitialized,
+    winningCells,
+    isClearing,
+}) => {
     const handleBoardAnimationComplete = () => {
         setIsBoardInitialized(true);
     };
@@ -33,6 +40,7 @@ const BoardComponent: FC<BoardProps> = ({ cells, onCellClick, setIsBoardInitiali
                         key={index}
                         onClick={() => onCellClick(index)}
                         isWinning={winningCells.includes(index)}
+                        isClearing={isClearing}
                     />
                 ))}
             </div>

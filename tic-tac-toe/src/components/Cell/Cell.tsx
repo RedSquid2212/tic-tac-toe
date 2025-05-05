@@ -9,9 +9,10 @@ type CellProps = {
     readonly value: 'X' | 'O' | null;
     readonly onClick: () => void;
     readonly isWinning: boolean;
+    readonly isClearing: boolean;
 }
 
-const CellComponent: FC<CellProps> = ({ value, onClick, isWinning }) => {
+const CellComponent: FC<CellProps> = ({ value, onClick, isWinning, isClearing }) => {
     return (
         <button
             onClick={onClick}
@@ -19,7 +20,7 @@ const CellComponent: FC<CellProps> = ({ value, onClick, isWinning }) => {
             className={styles.cell}
             disabled={value !== null}
         >
-            <div className={`${styles.animation} ${isWinning ? styles.winningCell : ''}`}>
+            <div className={`${styles.animation} ${isWinning ? styles.winningCell : ''} ${isClearing ? styles.boardClearing : ''}`}>
                 {value !== null &&
                     <Lottie
                         animationData={value === 'X' ? crossAnimation : ovalAnimation}
