@@ -1,14 +1,18 @@
 import { FC, memo, useCallback, useEffect, useState } from 'react';
 import { Board } from '../Board/Board';
 import { calculateComputerMove } from '../../utils/calculateComputerIndex';
-import { checkWinner } from '../../utils/calculateWinner';
+import { calculateWinner } from '../../utils/calculateWinner';
+import { CellValue } from '../../types/cellValue';
+import { Player } from '../../types/player';
+
+const COMPUTER_DELAY = 500;
 
 const GameComponent: FC = () => {
-    const [cells, setCells] = useState<('X' | 'O' | null)[]>(Array(9).fill(null));
-    const [currentPlayer, setCurrentPlayer] = useState<'X' | 'O'>('X');
+    const [cells, setCells] = useState<CellValue[]>(Array(9).fill(null));
+    const [currentPlayer, setCurrentPlayer] = useState<Player>('X');
     const [isBoardInitialized, setIsBoardInitialized] = useState(false);
     const [computerIndex, setComputerIndex] = useState(4);
-    const [winner, setWinner] = useState<('X' | 'O' | null)>(null);
+    const [winner, setWinner] = useState<CellValue>(null);
     const [winningCells, setWinningCells] = useState<readonly number[]>([]);
     const [isClearing, setIsClearing] = useState(false);
     const [isCellsFreezed, setIsCellsFreezed] = useState(true);
@@ -30,7 +34,7 @@ const GameComponent: FC = () => {
             const newState = [...prevState];
             newState[index] = currentPlayer;
             setComputerIndex(calculateComputerMove(newState));
-            const calculatedWinner = checkWinner(newState);
+            const calculatedWinner = calculateWinner(newState);
             setWinner(calculatedWinner?.winner ?? null);
             setWinningCells(calculatedWinner?.winLines ?? []);
             if (calculatedWinner?.winLines != null || newState.every(cell => cell != null)) {
@@ -61,14 +65,14 @@ const GameComponent: FC = () => {
             makeMove(computerIndex);
             setTimeout(() => {
                 setIsCellsFreezed(false);
-            }, 500);
+            }, COMPUTER_DELAY);
             return;
         }
         setIsCellsFreezed(true);
         setTimeout(() => {
             makeMove(computerIndex);
             setIsCellsFreezed(false);
-        }, 500);
+        }, COMPUTER_DELAY);
     }, [isBoardInitialized, computerIndex, currentPlayer, makeMove, winner]);
 
     return (

@@ -4,9 +4,10 @@ import crossAnimation from '../../assets/cross.json';
 import ovalAnimation from '../../assets/oval.json';
 
 import styles from './Cell.module.css';
+import { CellValue } from '../../types/cellValue';
 
 type CellProps = {
-    readonly value: 'X' | 'O' | null;
+    readonly value: CellValue;
     readonly onClick: () => void;
     readonly isWinning: boolean;
     readonly isClearing: boolean;

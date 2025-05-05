@@ -1,9 +1,11 @@
+import { CellValue } from '../types/cellValue';
+
 type GameResult = {
-    readonly winner: 'X' | 'O' | null;
+    readonly winner: CellValue;
     readonly winLines: readonly number[];
 };
 
-export const checkWinner = (cells: ('X' | 'O' | null)[]): GameResult | null => {
+export const calculateWinner = (cells: CellValue[]): GameResult | null => {
     const lines = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8],
         [0, 3, 6], [1, 4, 7], [2, 5, 8],

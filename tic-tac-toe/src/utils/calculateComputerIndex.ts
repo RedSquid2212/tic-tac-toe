@@ -1,11 +1,12 @@
-import { checkWinner } from './calculateWinner';
+import { CellValue } from '../types/cellValue';
+import { calculateWinner } from './calculateWinner';
 
-export const calculateComputerMove = (board: ('X' | 'O' | null)[]): number => {
+export const calculateComputerMove = (board: CellValue[]): number => {
     for (let i = 0; i < 9; i++) {
         if (board[i] === null) {
             const newBoard = [...board];
             newBoard[i] = 'O';
-            if (checkWinner(newBoard)?.winner === 'X') {
+            if (calculateWinner(newBoard)?.winner === 'X') {
                 return i;
             }
         }
@@ -15,7 +16,7 @@ export const calculateComputerMove = (board: ('X' | 'O' | null)[]): number => {
         if (board[i] === null) {
             const newBoard = [...board];
             newBoard[i] = 'O';
-            if (checkWinner(newBoard)?.winner === 'O') {
+            if (calculateWinner(newBoard)?.winner === 'O') {
                 if (Math.random() < 0.6) {
                     return i;
                 }
@@ -39,7 +40,9 @@ export const calculateComputerMove = (board: ('X' | 'O' | null)[]): number => {
     }
 
     for (let i = 0; i < 9; i++) {
-        if (board[i] === null) return i;
+        if (board[i] === null) {
+            return i;
+        }
     }
 
     return -1;

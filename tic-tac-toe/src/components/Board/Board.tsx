@@ -4,9 +4,10 @@ import { Cell } from '../Cell/Cell';
 import Lottie from 'lottie-react';
 
 import styles from './Board.module.css';
+import { CellValue } from '../../types/cellValue';
 
 type BoardProps = {
-    readonly cells: readonly ('X' | 'O' | null)[];
+    readonly cells: readonly CellValue[];
     readonly onCellClick: (index: number) => void;
     readonly setIsBoardInitialized: Dispatch<SetStateAction<boolean>>;
     readonly winningCells: readonly number[];
