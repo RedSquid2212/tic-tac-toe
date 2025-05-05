@@ -1,4 +1,9 @@
-export const checkWinner = (cells: ('X' | 'O' | null)[]): 'X' | 'O' | null => {
+type GameResult = {
+    readonly winner: 'X' | 'O' | null;
+    readonly winLines: readonly number[];
+};
+
+export const checkWinner = (cells: ('X' | 'O' | null)[]): GameResult | null => {
     const lines = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8],
         [0, 3, 6], [1, 4, 7], [2, 5, 8],
@@ -7,7 +12,10 @@ export const checkWinner = (cells: ('X' | 'O' | null)[]): 'X' | 'O' | null => {
 
     for (const [a, b, c] of lines) {
         if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
-            return cells[a];
+            return {
+                winner: cells[a],
+                winLines: [a, b, c],
+            };
         }
     }
     return null;

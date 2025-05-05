@@ -5,7 +5,7 @@ export const calculateComputerMove = (board: ('X' | 'O' | null)[]): number => {
         if (board[i] === null) {
             const newBoard = [...board];
             newBoard[i] = 'O';
-            if (checkWinner(newBoard) === 'X') {
+            if (checkWinner(newBoard)?.winner === 'X') {
                 return i;
             }
         }
@@ -15,7 +15,7 @@ export const calculateComputerMove = (board: ('X' | 'O' | null)[]): number => {
         if (board[i] === null) {
             const newBoard = [...board];
             newBoard[i] = 'O';
-            if (checkWinner(newBoard) === 'O') {
+            if (checkWinner(newBoard)?.winner === 'O') {
                 if (Math.random() < 0.6) {
                     return i;
                 }

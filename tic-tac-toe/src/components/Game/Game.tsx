@@ -8,7 +8,8 @@ const GameComponent: FC = () => {
     const [currentPlayer, setCurrentPlayer] = useState<'X' | 'O'>('X');
     const [isBoardInitialized, setIsBoardInitialized] = useState(false);
     const [computerIndex, setComputerIndex] = useState(4);
-    const [winner, setWinner] = useState<string | null>(null);
+    const [winner, setWinner] = useState<('X' | 'O' | null)>(null);
+    const [isCellsFreezed, setIsCellsFreezed] = useState(true);
 
     const makeMove = useCallback((index: number) => {
         if (winner != null) {
@@ -17,22 +18,37 @@ const GameComponent: FC = () => {
         setCells(prevState => {
             const newState = [...prevState];
             newState[index] = currentPlayer;
-            const calculatedWinner = checkWinner(prevState);
-            setWinner(calculatedWinner);
             setComputerIndex(calculateComputerMove(newState));
+            const calculatedWinner = checkWinner(newState);
+            setWinner(calculatedWinner?.winner ?? null);
             return newState;
         });
         setCurrentPlayer(prevState => prevState === 'O' ? 'X' : 'O');
     }, [currentPlayer, winner]);
 
     const handleCellClick = useCallback((index: number) => {
+        if (isCellsFreezed) {
+            return;
+        }
         makeMove(index);
-    }, [makeMove]);
+    }, [makeMove, isCellsFreezed]);
 
     useEffect(() => {
-        if (isBoardInitialized && currentPlayer === 'X' && !winner) {
-            makeMove(computerIndex);
+        if (!isBoardInitialized || currentPlayer === 'O' || winner != null) {
+            return;
         }
+        if (computerIndex === 4) {
+            makeMove(computerIndex);
+            setTimeout(() => {
+                setIsCellsFreezed(false);
+            }, 500);
+            return;
+        }
+        setIsCellsFreezed(true);
+        setTimeout(() => {
+            makeMove(computerIndex);
+            setIsCellsFreezed(false);
+        }, 500);
     }, [isBoardInitialized, computerIndex, currentPlayer, makeMove, winner]);
 
     return (
