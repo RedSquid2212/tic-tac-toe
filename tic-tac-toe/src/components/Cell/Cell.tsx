@@ -16,7 +16,7 @@ const CellComponent: FC<CellProps> = ({ value, onClick }) => {
     };
 
     return (
-        <button onClick={handleClick} type='button' className={styles.cell}>
+        <button onClick={handleClick} type='button' className={styles.cell} disabled={value !== null}>
             <div className={styles.animation}>
                 {value !== null &&
                     <Lottie

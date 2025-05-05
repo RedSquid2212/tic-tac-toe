@@ -1,31 +1,39 @@
 import { FC, memo, useCallback, useEffect, useState } from 'react';
 import { Board } from '../Board/Board';
+import { calculateComputerMove } from '../../utils/calculateComputerIndex';
+import { checkWinner } from '../../utils/calculateWinner';
 
 const GameComponent: FC = () => {
     const [cells, setCells] = useState<('X' | 'O' | null)[]>(Array(9).fill(null));
     const [currentPlayer, setCurrentPlayer] = useState<'X' | 'O'>('X');
     const [isBoardInitialized, setIsBoardInitialized] = useState(false);
+    const [computerIndex, setComputerIndex] = useState(4);
+    const [winner, setWinner] = useState<string | null>(null);
 
-    const handleCellClick = useCallback((index: number) => {
+    const makeMove = useCallback((index: number) => {
+        if (winner != null) {
+            return;
+        }
         setCells(prevState => {
             const newState = [...prevState];
             newState[index] = currentPlayer;
+            const calculatedWinner = checkWinner(prevState);
+            setWinner(calculatedWinner);
+            setComputerIndex(calculateComputerMove(newState));
             return newState;
         });
-        setCurrentPlayer(prevPlayer => prevPlayer === 'X' ? 'O' : 'X');
-    }, [currentPlayer]);
+        setCurrentPlayer(prevState => prevState === 'O' ? 'X' : 'O');
+    }, [currentPlayer, winner]);
+
+    const handleCellClick = useCallback((index: number) => {
+        makeMove(index);
+    }, [makeMove]);
 
     useEffect(() => {
-        if (isBoardInitialized) {
-            setCells(prevState => {
-                const newState = [...prevState];
-                newState[4] = 'X';
-                return newState;
-            });
-            setCurrentPlayer('O');
+        if (isBoardInitialized && currentPlayer === 'X' && !winner) {
+            makeMove(computerIndex);
         }
-        setIsBoardInitialized(false);
-    }, [isBoardInitialized]);
+    }, [isBoardInitialized, computerIndex, currentPlayer, makeMove, winner]);
 
     return (
         <Board
