@@ -79,7 +79,7 @@ const GameComponent: FC = () => {
         <Board
             cells={cells}
             onCellClick={(index) => handleCellClick(index)}
-            setIsBoardInitialized={setIsBoardInitialized}
+            onBoardInitialized={setIsBoardInitialized}
             winningCells={winningCells}
             isClearing={isClearing}
         />
